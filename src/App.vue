@@ -1,26 +1,43 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <navbar :pages="pages"></navbar>
+
+  <router-view></router-view>
+  <!-- <div v-show="false">Hide this content</div>
+  <page-viewer :page="pages[activePage]"></page-viewer>
+  <create-page @page-created="pageCreated"></create-page> -->
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+  import Navbar from "./components/Navbar.vue";
 
-export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+  export default {
+    components: {
+      Navbar,
+    },
+    inject: ["$pages"],
+    data() {
+      return {
+        pages: this.$pages,
+      };
+    },
+
+    methods: {
+      pageCreated(pageObj) {
+        if (pageObj.published) {
+          this.pages.push(pageObj);
+        } else {
+          return;
+        }
+      },
+    },
+  };
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+  #app {
+    font-family: "Inter", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    font-variation-settings: "slnt" 0;
+  }
 </style>
